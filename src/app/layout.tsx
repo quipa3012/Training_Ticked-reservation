@@ -3,14 +3,12 @@ import localFont from 'next/font/local';
 import { headers } from 'next/headers';
 import { ThemeProvider } from '@/components/app/theme-provider';
 import { ThemeToggle } from '@/components/app/theme-toggle';
+import Footer from '@/components/footer/Footer';
+import Header from '@/components/header/Header';
 import { cn, getAppConfig, getStyles } from '@/lib/utils';
+import AppProviders from '@/stores/AppProviders';
 import '@/styles/globals.css';
-import Header from "@/components/header/Header";
-import AppProviders from "@/stores/AppProviders";
-import Footer from "@/components/footer/Footer";
-import "./globals.scss";
-
-
+import './globals.scss';
 
 const publicSans = Public_Sans({
   variable: '--font-public-sans',
@@ -70,7 +68,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         <meta name="description" content={pageDescription} />
       </head>
       <AppProviders>
-        <body className="overflow-x-hidden app-layout">
+        <body className="app-layout overflow-x-hidden">
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

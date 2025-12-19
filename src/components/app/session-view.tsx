@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { useSessionContext, useSessionMessages } from '@livekit/components-react';
-import type { AppConfig } from '../../../app-config';
 import { ChatTranscript } from '@/components/app/chat-transcript';
 import { PreConnectMessage } from '@/components/app/preconnect-message';
 import { TileLayout } from '@/components/app/tile-layout';
@@ -12,6 +11,7 @@ import {
   type ControlBarControls,
 } from '@/components/livekit/agent-control-bar/agent-control-bar';
 import { cn } from '@/lib/utils';
+import type { AppConfig } from '../../../app-config';
 import { ScrollArea } from '../livekit/scroll-area/scroll-area';
 
 const MotionBottom = motion.create('div');
@@ -52,14 +52,11 @@ export const SessionView = ({ appConfig }: SessionViewProps) => {
   }, [messages]);
 
   return (
-    <section className="bg-background h-full w-full flex flex-col overflow-hidden">
+    <section className="bg-background flex h-full w-full flex-col overflow-hidden">
       {/* MAIN CONTENT */}
-      <div className="relative flex-1 min-h-0">
+      <div className="relative min-h-0 flex-1">
         {/* CHAT */}
-        <ScrollArea
-          ref={scrollAreaRef}
-          className="h-full px-4 py-6 md:px-6 pb-40"
-        >
+        <ScrollArea ref={scrollAreaRef} className="h-full px-4 py-6 pb-40 md:px-6">
           <ChatTranscript
             hidden={!chatOpen}
             messages={messages}
@@ -72,10 +69,7 @@ export const SessionView = ({ appConfig }: SessionViewProps) => {
       </div>
 
       {/* BOTTOM BAR */}
-      <MotionBottom
-        {...BOTTOM_VIEW_MOTION_PROPS}
-        className="shrink-0 bg-background"
-      >
+      <MotionBottom {...BOTTOM_VIEW_MOTION_PROPS} className="bg-background shrink-0">
         {appConfig.isPreConnectBufferEnabled && (
           <PreConnectMessage messages={messages} className="px-4 pt-3" />
         )}

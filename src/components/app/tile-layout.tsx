@@ -66,7 +66,7 @@ export function TileLayout({ chatOpen }: TileLayoutProps) {
             )}
           >
             {!isAvatar && agentAudioTrack && (
-              <div className="bg-background aspect-square h-[90px] rounded-md border border-input/50 drop-shadow-sm">
+              <div className="bg-background border-input/50 aspect-square h-[90px] rounded-md border drop-shadow-sm">
                 <BarVisualizer
                   barCount={5}
                   state={agentState}
@@ -80,14 +80,13 @@ export function TileLayout({ chatOpen }: TileLayoutProps) {
             )}
 
             {isAvatar && agentVideoTrack && (
-              <div className={cn(
-                'overflow-hidden rounded-md bg-black',
-                chatOpen ? 'h-[90px] w-[90px]' : 'w-full'
-              )}>
-                <VideoTrack
-                  trackRef={agentVideoTrack}
-                  className="h-full w-full object-cover"
-                />
+              <div
+                className={cn(
+                  'overflow-hidden rounded-md bg-black',
+                  chatOpen ? 'h-[90px] w-[90px]' : 'w-full'
+                )}
+              >
+                <VideoTrack trackRef={agentVideoTrack} className="h-full w-full object-cover" />
               </div>
             )}
           </div>
@@ -101,7 +100,7 @@ export function TileLayout({ chatOpen }: TileLayoutProps) {
             )}
           >
             {(isCameraEnabled || isScreenShareEnabled) && (
-              <div className="bg-muted aspect-square w-[90px] rounded-md overflow-hidden">
+              <div className="bg-muted aspect-square w-[90px] overflow-hidden rounded-md">
                 <VideoTrack
                   trackRef={cameraTrack || screenShareTrack}
                   className="h-full w-full object-cover"

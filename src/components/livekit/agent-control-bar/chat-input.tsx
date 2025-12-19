@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion, easeOut } from 'motion/react';
+import { easeOut, motion } from 'motion/react';
 import { PaperPlaneRightIcon, SpinnerIcon } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/livekit/button';
 
@@ -32,7 +32,7 @@ interface ChatInputProps {
 export function ChatInput({
   chatOpen,
   isAgentAvailable = false,
-  onSend = async () => { },
+  onSend = async () => {},
 }: ChatInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isSending, setIsSending] = useState(false);

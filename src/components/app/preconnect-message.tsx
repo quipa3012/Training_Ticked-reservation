@@ -1,6 +1,6 @@
 'use client';
 
-import { AnimatePresence, motion, easeIn } from 'motion/react';
+import { AnimatePresence, easeIn, motion } from 'motion/react';
 import { type ReceivedMessage } from '@livekit/components-react';
 import { ShimmerText } from '@/components/livekit/shimmer-text';
 import { cn } from '@/lib/utils';
@@ -45,9 +45,7 @@ export function PreConnectMessage({ className, messages = [] }: PreConnectMessag
           aria-hidden={messages.length > 0}
           className={cn('pointer-events-none text-center', className)}
         >
-          <ShimmerText className="text-sm font-semibold">
-            Trợ lý đang lắng nghe
-          </ShimmerText>
+          <ShimmerText className="text-sm font-semibold">Trợ lý đang lắng nghe</ShimmerText>
         </MotionMessage>
       )}
     </AnimatePresence>

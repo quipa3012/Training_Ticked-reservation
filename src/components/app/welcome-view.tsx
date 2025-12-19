@@ -33,14 +33,14 @@ export const WelcomeView = ({
       <section className="bg-background flex flex-col items-center justify-center text-center">
         <WelcomeImage />
 
-        <p className="text-foreground max-w-prose pt-1 leading-6 font-large">
+        <p className="text-foreground font-large max-w-prose pt-1 leading-6">
           <strong>Trò truyện với trợ lý ảo</strong>
         </p>
 
-        <p className="text-foreground max-w-prose pt-1 leading-6 font-medium mt-5 mb-5">
-          Xin chào! Tôi là trợ lý ảo của hệ thống, hỗ trợ tư vấn phim và đặt vé nhanh chóng.
-          Tôi có thể giúp bạn tìm phim đang chiếu, gợi ý phim phù hợp, tra cứu lịch chiếu, chọn rạp, chọn suất và hỗ trợ đặt vé từng bước.
-          Chỉ cần nói nhu cầu, tôi sẽ hỗ trợ ngay.
+        <p className="text-foreground mt-5 mb-5 max-w-prose pt-1 leading-6 font-medium">
+          Xin chào! Tôi là trợ lý ảo của hệ thống, hỗ trợ tư vấn phim và đặt vé nhanh chóng. Tôi có
+          thể giúp bạn tìm phim đang chiếu, gợi ý phim phù hợp, tra cứu lịch chiếu, chọn rạp, chọn
+          suất và hỗ trợ đặt vé từng bước. Chỉ cần nói nhu cầu, tôi sẽ hỗ trợ ngay.
         </p>
 
         <Button variant="primary" size="lg" onClick={onStartCall} className="mt-6 w-64 font-mono">

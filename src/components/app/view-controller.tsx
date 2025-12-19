@@ -1,16 +1,15 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { message } from 'antd';
 import { AnimatePresence, motion } from 'motion/react';
 import { useSessionContext } from '@livekit/components-react';
-import type { AppConfig } from '../../../app-config';
 import { SessionView } from '@/components/app/session-view';
 import { WelcomeView } from '@/components/app/welcome-view';
 import BookingForm from '@/components/booking/BookingForm';
-
-import { useEffect } from 'react';
-import { message } from 'antd';
-import { useRouter } from 'next/navigation';
 import { useAuth } from '@/stores/auth/AuthContext';
+import type { AppConfig } from '../../../app-config';
 
 const MotionWelcomeView = motion.create(WelcomeView);
 const MotionSessionView = motion.create(SessionView);
@@ -62,11 +61,7 @@ export function ViewController({ appConfig }: ViewControllerProps) {
         )}
 
         {isConnected && (
-          <MotionSessionView
-            key="session-view"
-            {...VIEW_MOTION_PROPS}
-            appConfig={appConfig}
-          />
+          <MotionSessionView key="session-view" {...VIEW_MOTION_PROPS} appConfig={appConfig} />
         )}
       </AnimatePresence>
     </>

@@ -8,14 +8,13 @@ import {
   StartAudio,
   useSession,
 } from '@livekit/components-react';
-import type { AppConfig } from '../../../app-config';
 import { ViewController } from '@/components/app/view-controller';
 import { Toaster } from '@/components/livekit/toaster';
 import { useAgentErrors } from '@/hooks/useAgentErrors';
 import { useDebugMode } from '@/hooks/useDebug';
 import { getSandboxTokenSource } from '@/lib/utils';
 import { useAuth } from '@/stores/auth/AuthContext';
-
+import type { AppConfig } from '../../../app-config';
 
 const IN_DEVELOPMENT = process.env.NODE_ENV !== 'production';
 
@@ -31,9 +30,7 @@ interface AppProps {
 }
 
 export function App({ appConfig }: AppProps) {
-
   const { user } = useAuth();
-
 
   const tokenSource = useMemo(() => {
     if (!user) return TokenSource.endpoint('/api/connection-details');
@@ -45,7 +42,7 @@ export function App({ appConfig }: AppProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           user: { userId: user.userId, fullName: user.fullName },
-          room_config: { agents: [{ agent_name: appConfig.agentName }] }
+          room_config: { agents: [{ agent_name: appConfig.agentName }] },
         }),
       });
       return res.json(); // { participantToken, roomName, participantName, serverUrl }

@@ -53,7 +53,9 @@ export async function POST(req: Request) {
     return NextResponse.json(data, { headers: { 'Cache-Control': 'no-store' } });
   } catch (error) {
     console.error(error);
-    return new NextResponse(error instanceof Error ? error.message : 'Unknown error', { status: 500 });
+    return new NextResponse(error instanceof Error ? error.message : 'Unknown error', {
+      status: 500,
+    });
   }
 }
 
@@ -77,9 +79,7 @@ function createParticipantToken(
 
   if (agentName) {
     at.roomConfig = new RoomConfiguration({
-      agents: [
-        { agentName, metadata: metadataStr ?? '' }
-      ],
+      agents: [{ agentName, metadata: metadataStr ?? '' }],
     });
   }
 

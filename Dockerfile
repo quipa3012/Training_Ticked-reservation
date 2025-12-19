@@ -1,39 +1,45 @@
-# Chọn base image Node LTS
+# Stage 1: build
 FROM node:20-alpine AS builder
 
 # Set working directory
 WORKDIR /app
 
-# Copy package.json và pnpm-lock.yaml
+# Install pnpm
+RUN npm install -g pnpm@9.15.9
+
+# Copy package files
 COPY package.json pnpm-lock.yaml* ./
 
-# Cài pnpm nếu chưa có
-RUN npm install -g pnpm
+# Install dependencies
+RUN pnpm install --frozen-lockfile
 
-# Cài dependencies
-RUN pnpm install
-
-# Copy toàn bộ code
+# Copy rest of the project
 COPY . .
 
 # Build Next.js
 RUN pnpm build
 
-# Production image
+# Stage 2: production image
 FROM node:20-alpine AS runner
+
 WORKDIR /app
 
-# Copy từ builder
-COPY --from=builder /app/package.json ./package.json
+# Install only production dependencies
+COPY package.json pnpm-lock.yaml* ./
+RUN npm install -g pnpm@9.15.9
+RUN pnpm install --prod --frozen-lockfile
+
+# Copy built Next.js files from builder
 COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/package.json ./
 
-# Set env production
+# Set environment variables
 ENV NODE_ENV=production
+ENV PORT=3000
 
-# Expose port
 EXPOSE 3000
 
-# Start server
+# Run Next.js
 CMD ["pnpm", "start"]
