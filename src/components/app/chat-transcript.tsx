@@ -1,18 +1,18 @@
 'use client';
 
-import { AnimatePresence, type HTMLMotionProps, motion } from 'motion/react';
+import { AnimatePresence, type HTMLMotionProps, motion, easeOut } from 'motion/react';
 import { type ReceivedMessage } from '@livekit/components-react';
 import { ChatEntry } from '@/components/livekit/chat-entry';
 
-const MotionContainer = motion.create('div');
-const MotionChatEntry = motion.create(ChatEntry);
+const MotionContainer = motion.div; // ✅ trực tiếp div
+const MotionChatEntry = motion(ChatEntry); // ✅ motion component
 
 const CONTAINER_MOTION_PROPS = {
   variants: {
     hidden: {
       opacity: 0,
       transition: {
-        ease: 'easeOut',
+        ease: easeOut,
         duration: 0.3,
         staggerChildren: 0.1,
         staggerDirection: -1,
@@ -22,9 +22,9 @@ const CONTAINER_MOTION_PROPS = {
       opacity: 1,
       transition: {
         delay: 0.2,
-        ease: 'easeOut',
+        ease: easeOut,
         duration: 0.3,
-        stagerDelay: 0.2,
+        staggerDelay: 0.2, // ✅ sửa từ stagerDelay
         staggerChildren: 0.1,
         staggerDirection: 1,
       },
@@ -39,11 +39,11 @@ const MESSAGE_MOTION_PROPS = {
   variants: {
     hidden: {
       opacity: 0,
-      translateY: 10,
+      y: 10, // ✅ dùng y thay vì translateY
     },
     visible: {
       opacity: 1,
-      translateY: 0,
+      y: 0,
     },
   },
 };

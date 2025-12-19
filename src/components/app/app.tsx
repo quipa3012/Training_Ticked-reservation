@@ -14,6 +14,8 @@ import { Toaster } from '@/components/livekit/toaster';
 import { useAgentErrors } from '@/hooks/useAgentErrors';
 import { useDebugMode } from '@/hooks/useDebug';
 import { getSandboxTokenSource } from '@/lib/utils';
+import { useAuth } from '@/stores/auth/AuthContext';
+
 
 const IN_DEVELOPMENT = process.env.NODE_ENV !== 'production';
 
@@ -29,11 +31,26 @@ interface AppProps {
 }
 
 export function App({ appConfig }: AppProps) {
+
+  const { user } = useAuth();
+
+
   const tokenSource = useMemo(() => {
-    return typeof process.env.NEXT_PUBLIC_CONN_DETAILS_ENDPOINT === 'string'
-      ? getSandboxTokenSource(appConfig)
-      : TokenSource.endpoint('/api/connection-details');
-  }, [appConfig]);
+    if (!user) return TokenSource.endpoint('/api/connection-details');
+
+    return TokenSource.custom(async () => {
+      // gọi backend kèm user info
+      const res = await fetch('/api/connection-details', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user: { userId: user.userId, fullName: user.fullName },
+          room_config: { agents: [{ agent_name: appConfig.agentName }] }
+        }),
+      });
+      return res.json(); // { participantToken, roomName, participantName, serverUrl }
+    });
+  }, [user, appConfig.agentName]);
 
   const session = useSession(
     tokenSource,

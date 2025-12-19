@@ -1,18 +1,18 @@
 'use client';
 
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion, easeIn } from 'motion/react';
 import { type ReceivedMessage } from '@livekit/components-react';
 import { ShimmerText } from '@/components/livekit/shimmer-text';
 import { cn } from '@/lib/utils';
 
-const MotionMessage = motion.create('p');
+const MotionMessage = motion.p; // ✅ dùng motion.p thay vì motion.create('p')
 
 const VIEW_MOTION_PROPS = {
   variants: {
     visible: {
       opacity: 1,
       transition: {
-        ease: 'easeIn',
+        ease: easeIn, // ✅ sửa từ string sang easing import từ motion
         duration: 0.5,
         delay: 0.8,
       },
@@ -20,7 +20,7 @@ const VIEW_MOTION_PROPS = {
     hidden: {
       opacity: 0,
       transition: {
-        ease: 'easeIn',
+        ease: easeIn,
         duration: 0.5,
         delay: 0,
       },

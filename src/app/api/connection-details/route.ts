@@ -9,7 +9,6 @@ type ConnectionDetails = {
   participantToken: string;
 };
 
-// NOTE: you are expected to define the following environment variables in `.env.local`:
 const API_KEY = process.env.LIVEKIT_API_KEY;
 const API_SECRET = process.env.LIVEKIT_API_SECRET;
 const LIVEKIT_URL = process.env.LIVEKIT_URL;
@@ -19,59 +18,54 @@ export const revalidate = 0;
 
 export async function POST(req: Request) {
   try {
-    if (LIVEKIT_URL === undefined) {
-      throw new Error('LIVEKIT_URL is not defined');
-    }
-    if (API_KEY === undefined) {
-      throw new Error('LIVEKIT_API_KEY is not defined');
-    }
-    if (API_SECRET === undefined) {
-      throw new Error('LIVEKIT_API_SECRET is not defined');
-    }
+    if (!LIVEKIT_URL) throw new Error('LIVEKIT_URL is not defined');
+    if (!API_KEY) throw new Error('LIVEKIT_API_KEY is not defined');
+    if (!API_SECRET) throw new Error('LIVEKIT_API_SECRET is not defined');
 
     // Parse agent configuration from request body
     const body = await req.json();
     const agentName: string = body?.room_config?.agents?.[0]?.agent_name;
+    const user = body.user;
+    if (!user || !user.userId || !user.fullName) {
+      throw new Error('User info missing');
+    }
+
+    const metadataStr = JSON.stringify({ userId: user.userId, fullName: user.fullName });
 
     // Generate participant token
-    const participantName = 'user';
     const participantIdentity = `voice_assistant_user_${Math.floor(Math.random() * 10_000)}`;
     const roomName = `voice_assistant_room_${Math.floor(Math.random() * 10_000)}`;
 
     const participantToken = await createParticipantToken(
-      { identity: participantIdentity, name: participantName },
+      { identity: participantIdentity, name: user.fullName },
       roomName,
-      agentName
+      agentName,
+      metadataStr
     );
 
-    // Return connection details
     const data: ConnectionDetails = {
       serverUrl: LIVEKIT_URL,
       roomName,
-      participantToken: participantToken,
-      participantName,
+      participantToken,
+      participantName: user.fullName,
     };
-    const headers = new Headers({
-      'Cache-Control': 'no-store',
-    });
-    return NextResponse.json(data, { headers });
+
+    return NextResponse.json(data, { headers: { 'Cache-Control': 'no-store' } });
   } catch (error) {
-    if (error instanceof Error) {
-      console.error(error);
-      return new NextResponse(error.message, { status: 500 });
-    }
+    console.error(error);
+    return new NextResponse(error instanceof Error ? error.message : 'Unknown error', { status: 500 });
   }
 }
 
+// Sửa hàm để nhận metadataStr
 function createParticipantToken(
   userInfo: AccessTokenOptions,
   roomName: string,
-  agentName?: string
+  agentName?: string,
+  metadataStr?: string
 ): Promise<string> {
-  const at = new AccessToken(API_KEY, API_SECRET, {
-    ...userInfo,
-    ttl: '15m',
-  });
+  const at = new AccessToken(API_KEY!, API_SECRET!, { ...userInfo, ttl: '15m' });
+
   const grant: VideoGrant = {
     room: roomName,
     roomJoin: true,
@@ -83,7 +77,9 @@ function createParticipantToken(
 
   if (agentName) {
     at.roomConfig = new RoomConfiguration({
-      agents: [{ agentName }],
+      agents: [
+        { agentName, metadata: metadataStr ?? '' }
+      ],
     });
   }
 

@@ -1,11 +1,12 @@
 import { movies } from '@/data/movies';
-import { NextResponse } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
 
 export async function GET(
-    _: Request,
-    { params }: { params: { id: string } }
+    _: NextRequest,
+    context: { params: Promise<{ id: string }> }
 ) {
-    const movie = movies.find(m => m.id === Number(params.id));
+    const { id } = await context.params;
+    const movie = movies.find(m => m.id === Number(id));
 
     if (!movie) {
         return NextResponse.json(

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion } from 'motion/react';
+import { motion, easeOut } from 'motion/react';
 import { PaperPlaneRightIcon, SpinnerIcon } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/livekit/button';
 
@@ -19,7 +19,7 @@ const MOTION_PROPS = {
   initial: 'hidden',
   transition: {
     duration: 0.3,
-    ease: 'easeOut',
+    ease: easeOut, // ✅ sửa đây
   },
 };
 
@@ -32,7 +32,7 @@ interface ChatInputProps {
 export function ChatInput({
   chatOpen,
   isAgentAvailable = false,
-  onSend = async () => {},
+  onSend = async () => { },
 }: ChatInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isSending, setIsSending] = useState(false);
@@ -55,14 +55,12 @@ export function ChatInput({
   const isDisabled = isSending || !isAgentAvailable || message.trim().length === 0;
 
   useEffect(() => {
-    if (chatOpen && isAgentAvailable) return;
-    // when not disabled refocus on input
+    if (!chatOpen || !isAgentAvailable) return;
     inputRef.current?.focus();
   }, [chatOpen, isAgentAvailable]);
 
   return (
     <motion.div
-      inert={!chatOpen}
       {...MOTION_PROPS}
       animate={chatOpen ? 'visible' : 'hidden'}
       className="border-input/50 flex w-full items-start overflow-hidden border-b"
