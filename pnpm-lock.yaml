@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@livekit/components-react':
         specifier: ^2.9.17
-        version: 2.9.17(@livekit/krisp-noise-filter@0.2.16(livekit-client@2.16.1(@types/dom-mediacapture-record@1.0.22)))(livekit-client@2.16.1(@types/dom-mediacapture-record@1.0.22))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(tslib@2.8.1)
+        version: 2.9.17(livekit-client@2.16.1(@types/dom-mediacapture-record@1.0.22))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(tslib@2.8.1)
       '@livekit/protocol':
         specifier: ^1.43.4
         version: 1.43.4
@@ -468,11 +468,6 @@ packages:
     peerDependenciesMeta:
       '@livekit/krisp-noise-filter':
         optional: true
-
-  '@livekit/krisp-noise-filter@0.2.16':
-    resolution: {integrity: sha512-W7fyNkECDbWLXwBW5CDKQvuW4mxhkKBp9UAvTkTsn6dq1w7ZLTIEdUErrfZiNVuHmbXd22wI1ycjOYvaeNKMvw==}
-    peerDependencies:
-      livekit-client: ^2.0.8
 
   '@livekit/mutex@1.1.1':
     resolution: {integrity: sha512-EsshAucklmpuUAfkABPxJNhzj9v2sG7JuzFDL4ML1oJQSV14sqrpTYnsaOudMAw9yOaW53NU3QQTlUQoRs4czw==}
@@ -3344,7 +3339,7 @@ snapshots:
       rxjs: 7.8.2
       tslib: 2.8.1
 
-  '@livekit/components-react@2.9.17(@livekit/krisp-noise-filter@0.2.16(livekit-client@2.16.1(@types/dom-mediacapture-record@1.0.22)))(livekit-client@2.16.1(@types/dom-mediacapture-record@1.0.22))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(tslib@2.8.1)':
+  '@livekit/components-react@2.9.17(livekit-client@2.16.1(@types/dom-mediacapture-record@1.0.22))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(tslib@2.8.1)':
     dependencies:
       '@livekit/components-core': 0.12.12(livekit-client@2.16.1(@types/dom-mediacapture-record@1.0.22))(tslib@2.8.1)
       clsx: 2.1.1
@@ -3355,13 +3350,6 @@ snapshots:
       react-dom: 19.2.3(react@19.2.3)
       tslib: 2.8.1
       usehooks-ts: 3.1.1(react@19.2.3)
-    optionalDependencies:
-      '@livekit/krisp-noise-filter': 0.2.16(livekit-client@2.16.1(@types/dom-mediacapture-record@1.0.22))
-
-  '@livekit/krisp-noise-filter@0.2.16(livekit-client@2.16.1(@types/dom-mediacapture-record@1.0.22))':
-    dependencies:
-      livekit-client: 2.16.1(@types/dom-mediacapture-record@1.0.22)
-    optional: true
 
   '@livekit/mutex@1.1.1': {}
 
